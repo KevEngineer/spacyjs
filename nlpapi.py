@@ -1,12 +1,16 @@
 import spacyextractor
 #import python flask to create a rest API
 from flask import Flask
-app = Flask(__name__)
+from typing import Union
+from fastapi import FastAPI
 
-@app.route('/')
-def hello_world():
-   pageResult=spacyextractor.extractEntities("Mass action: Kioni faction allows Jubilee Party employees to take Monday off")
+app = FastAPI()
+
+@app.get("/")
+def read_root():
+    return {"Hello": "World"}
+
+@app.get('/search/{query}')
+def hello_world(query):
+   pageResult=spacyextractor.extractEntities(query)
    return pageResult
-
-if __name__ == '__main__':
-   app.run()
